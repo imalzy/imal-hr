@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="header-card">
+    <div class="header-container">
+      <!-- Left Section -->
+      <div class="header-left">
+        <div class="logo-box">
+          <mat-icon class="logo-icon">groups</mat-icon>
+        </div>
+        <h1 class="title">Employee Portal</h1>
+      </div>
+
+      <!-- Right Section -->
+      <div class="header-right">
+        <button mat-button color="accent" (click)="handleAddEmployee()">
+          <mat-icon>add</mat-icon>
+          <span class="hide-sm">Add Employee</span>
+        </button>
+
+        <button mat-button color="accent" (click)="handleLogout()">
+          <mat-icon>logout</mat-icon>
+          <span class="hide-sm">Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
