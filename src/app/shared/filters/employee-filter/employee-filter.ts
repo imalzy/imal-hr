@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FilterEmployeeService } from '../../../services/filters/filter-employee';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-employee-filter',
@@ -16,6 +17,7 @@ import { FilterEmployeeService } from '../../../services/filters/filter-employee
     MatInputModule,
     MatSelectModule,
     TitleCasePipe,
+    MatButtonModule,
   ],
   templateUrl: './employee-filter.html',
   styleUrl: './employee-filter.scss',

@@ -1,21 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { FilterEmployeeService } from '../filters/filter-employee';
 
 export interface IEmployee {
   id: number;
-  name: string;
-  position: string;
-  department: string;
+  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  phone: string;
-  location: string;
-  avatar: string;
-  status: 'active' | 'busy' | 'away';
-  startDate: string;
-  manager: string;
-  employeeId: string;
-  salary: string;
+  birthDate: string;
+  basicSalary: number;
+  status: string;
+  group: string;
+  description: string;
 }
 
 @Injectable({
@@ -25,187 +29,151 @@ export class EmployeeService {
   private filterService = inject(FilterEmployeeService);
 
   private employees: IEmployee[] = [
-    {
-      id: 1,
-      name: 'Sarah Johnson',
-      position: 'Senior Frontend Developer',
-      department: 'Engineering',
-      email: 'sarah.johnson@company.com',
-      phone: '+1 (555) 123-4567',
-      location: 'New York, NY',
-      avatar: '',
-      status: 'active',
-      startDate: '2021-03-15',
-      manager: 'John Smith',
-      employeeId: 'EMP001',
-      salary: '$95,000',
-    },
-    {
-      id: 2,
-      name: 'Michael Chen',
-      position: 'Product Manager',
-      department: 'Product',
-      email: 'michael.chen@company.com',
-      phone: '+1 (555) 234-5678',
-      location: 'San Francisco, CA',
-      avatar: '',
-      status: 'busy',
-      startDate: '2020-08-10',
-      manager: 'Lisa Anderson',
-      employeeId: 'EMP002',
-      salary: '$110,000',
-    },
-    {
-      id: 3,
-      name: 'Emily Rodriguez',
-      position: 'UX Designer',
-      department: 'Design',
-      email: 'emily.rodriguez@company.com',
-      phone: '+1 (555) 345-6789',
-      location: 'Austin, TX',
-      avatar: '',
-      status: 'active',
-      startDate: '2022-01-20',
-      manager: 'David Kim',
-      employeeId: 'EMP003',
-      salary: '$85,000',
-    },
-    {
-      id: 4,
-      name: 'David Kumar',
-      position: 'Backend Developer',
-      department: 'Engineering',
-      email: 'david.kumar@company.com',
-      phone: '+1 (555) 456-7890',
-      location: 'Seattle, WA',
-      avatar: '',
-      status: 'away',
-      startDate: '2021-11-05',
-      manager: 'John Smith',
-      employeeId: 'EMP004',
-      salary: '$90,000',
-    },
-    {
-      id: 5,
-      name: 'Lisa Thompson',
-      position: 'Marketing Director',
-      department: 'Marketing',
-      email: 'lisa.thompson@company.com',
-      phone: '+1 (555) 567-8901',
-      location: 'Chicago, IL',
-      avatar: '',
-      status: 'active',
-      startDate: '2019-06-12',
-      manager: 'Robert Wilson',
-      employeeId: 'EMP005',
-      salary: '$120,000',
-    },
-    {
-      id: 6,
-      name: 'James Wilson',
-      position: 'DevOps Engineer',
-      department: 'Engineering',
-      email: 'james.wilson@company.com',
-      phone: '+1 (555) 678-9012',
-      location: 'Denver, CO',
-      avatar: '',
-      status: 'active',
-      startDate: '2020-02-28',
-      manager: 'John Smith',
-      employeeId: 'EMP006',
-      salary: '$105,000',
-    },
-    {
-      id: 7,
-      name: 'Anna Martinez',
-      position: 'Sales Manager',
-      department: 'Sales',
-      email: 'anna.martinez@company.com',
-      phone: '+1 (555) 789-0123',
-      location: 'Miami, FL',
-      avatar: '',
-      status: 'active',
-      startDate: '2021-07-12',
-      manager: 'Robert Wilson',
-      employeeId: 'EMP007',
-      salary: '$88,000',
-    },
-    {
-      id: 8,
-      name: 'Tom Anderson',
-      position: 'HR Specialist',
-      department: 'HR',
-      email: 'tom.anderson@company.com',
-      phone: '+1 (555) 890-1234',
-      location: 'Portland, OR',
-      avatar: '',
-      status: 'away',
-      startDate: '2020-11-30',
-      manager: 'Lisa Anderson',
-      employeeId: 'EMP008',
-      salary: '$72,000',
-    },
-    {
-      id: 9,
-      name: 'Rachel Green',
-      position: 'Financial Analyst',
-      department: 'Finance',
-      email: 'rachel.green@company.com',
-      phone: '+1 (555) 901-2345',
-      location: 'Boston, MA',
-      avatar: '',
-      status: 'active',
-      startDate: '2022-04-18',
-      manager: 'David Kim',
-      employeeId: 'EMP009',
-      salary: '$78,000',
-    },
-    {
-      id: 10,
-      name: 'Kevin Liu',
-      position: 'QA Engineer',
-      department: 'Engineering',
-      email: 'kevin.liu@company.com',
-      phone: '+1 (555) 012-3456',
-      location: 'San Jose, CA',
-      avatar: '',
-      status: 'busy',
-      startDate: '2021-09-20',
-      manager: 'John Smith',
-      employeeId: 'EMP010',
-      salary: '$82,000',
-    },
-    {
-      id: 11,
-      name: 'Sofia Garcia',
-      position: 'Content Writer',
-      department: 'Marketing',
-      email: 'sofia.garcia@company.com',
-      phone: '+1 (555) 123-4567',
-      location: 'Los Angeles, CA',
-      avatar: '',
-      status: 'active',
-      startDate: '2022-02-14',
-      manager: 'Lisa Thompson',
-      employeeId: 'EMP011',
-      salary: '$65,000',
-    },
-    {
-      id: 12,
-      name: 'Daniel Brown',
-      position: 'System Administrator',
-      department: 'IT',
-      email: 'daniel.brown@company.com',
-      phone: '+1 (555) 234-5678',
-      location: 'Phoenix, AZ',
-      avatar: '',
-      status: 'active',
-      startDate: '2020-05-25',
-      manager: 'James Wilson',
-      employeeId: 'EMP012',
-      salary: '$75,000',
-    },
-  ];
+  {
+    id: 1,
+    username: 'sarah.johnson',
+    firstName: 'Sarah',
+    lastName: 'Johnson',
+    email: 'sarah.johnson@company.com',
+    birthDate: '1990-05-15', 
+    basicSalary: 95000,
+    status: 'active',
+    group: 'Engineering',
+    description: 'Experienced frontend developer with expertise in React, TypeScript, and modern web technologies. Passionate about creating user-friendly interfaces and mentoring junior developers.'
+  },
+  {
+    id: 2,
+    username: 'michael.chen',
+    firstName: 'Michael',
+    lastName: 'Chen',
+    email: 'michael.chen@company.com',
+    birthDate: '1988-07-22',
+    basicSalary: 110000,
+    status: 'busy',
+    group: 'Product',
+    description: 'Product manager with experience in agile development and product lifecycle management.'
+  },
+  {
+    id: 3,
+    username: 'emily.rodriguez',
+    firstName: 'Emily',
+    lastName: 'Rodriguez',
+    email: 'emily.rodriguez@company.com',
+    birthDate: '1992-03-10',
+    basicSalary: 85000,
+    status: 'active',
+    group: 'Design',
+    description: 'Creative UX designer focused on user-centered design principles and accessibility.'
+  },
+  {
+    id: 4,
+    username: 'david.kumar',
+    firstName: 'David',
+    lastName: 'Kumar',
+    email: 'david.kumar@company.com',
+    birthDate: '1989-11-18',
+    basicSalary: 90000,
+    status: 'away',
+    group: 'Engineering',
+    description: 'Backend developer specializing in scalable systems and database architecture.'
+  },
+  {
+    id: 5,
+    username: 'lisa.thompson',
+    firstName: 'Lisa',
+    lastName: 'Thompson',
+    email: 'lisa.thompson@company.com',
+    birthDate: '1985-09-05',
+    basicSalary: 120000,
+    status: 'active',
+    group: 'Marketing',
+    description: 'Marketing director with expertise in digital marketing strategies and brand management.'
+  },
+  {
+    id: 6,
+    username: 'james.wilson',
+    firstName: 'James',
+    lastName: 'Wilson',
+    email: 'james.wilson@company.com',
+    birthDate: '1987-12-30',
+    basicSalary: 105000,
+    status: 'active',
+    group: 'Engineering',
+    description: 'DevOps engineer focused on CI/CD pipelines and cloud infrastructure.'
+  },
+  {
+    id: 7,
+    username: 'anna.martinez',
+    firstName: 'Anna',
+    lastName: 'Martinez',
+    email: 'anna.martinez@company.com',
+    birthDate: '1991-04-25',
+    basicSalary: 88000,
+    status: 'active',
+    group: 'Sales',
+    description: 'Sales manager with strong customer relationship skills and sales strategy expertise.'
+  },
+  {
+    id: 8,
+    username: 'tom.anderson',
+    firstName: 'Tom',
+    lastName: 'Anderson',
+    email: 'tom.anderson@company.com',
+    birthDate: '1986-08-12',
+    basicSalary: 72000,
+    status: 'away',
+    group: 'HR',
+    description: 'HR specialist focused on employee relations and talent acquisition.'
+  },
+  {
+    id: 9,
+    username: 'rachel.green',
+    firstName: 'Rachel',
+    lastName: 'Green',
+    email: 'rachel.green@company.com',
+    birthDate: '1993-01-20',
+    basicSalary: 78000,
+    status: 'active',
+    group: 'Finance',
+    description: 'Financial analyst with expertise in budgeting, forecasting, and financial modeling.'
+  },
+  {
+    id: 10,
+    username: 'kevin.liu',
+    firstName: 'Kevin',
+    lastName: 'Liu',
+    email: 'kevin.liu@company.com',
+    birthDate: '1990-10-08',
+    basicSalary: 82000,
+    status: 'busy',
+    group: 'Engineering',
+    description: 'QA engineer specializing in automated testing and quality assurance processes.'
+  },
+  {
+    id: 11,
+    username: 'sofia.garcia',
+    firstName: 'Sofia',
+    lastName: 'Garcia',
+    email: 'sofia.garcia@company.com',
+    birthDate: '1994-06-14',
+    basicSalary: 65000,
+    status: 'active',
+    group: 'Marketing',
+    description: 'Content writer creating engaging marketing materials and brand messaging.'
+  },
+  {
+    id: 12,
+    username: 'daniel.brown',
+    firstName: 'Daniel',
+    lastName: 'Brown',
+    email: 'daniel.brown@company.com',
+    birthDate: '1988-02-28',
+    basicSalary: 75000,
+    status: 'active',
+    group: 'IT',
+    description: 'System administrator managing network infrastructure and IT support systems.'
+  }
+];
 
   private employeeSubject = new BehaviorSubject<IEmployee[]>(this.employees);
   public employee$ = this.employeeSubject.asObservable();
@@ -217,7 +185,7 @@ export class EmployeeService {
   ]).pipe(
     map(([employees, department, status]) => {
       return employees.filter((emp) => {
-        const deptMatch = department === 'all' || emp.department === department;
+        const deptMatch = department === 'all' || emp.group === department;
         const statusMatch = status === 'all' || emp.status === status;
         return deptMatch && statusMatch;
       });
@@ -228,8 +196,11 @@ export class EmployeeService {
     return this.employee$;
   }
 
-  getById(id: number): IEmployee | undefined {
-    return this.employeeSubject.value.find((emp) => emp.id === id);
+  getById(id: number): Observable<IEmployee> {
+    const employee = this.employeeSubject.value.find((emp) => emp.id === id);
+    return employee
+      ? of(employee)
+      : throwError(() => new Error('Employee not found'));
   }
 
   create(employee: IEmployee): void {

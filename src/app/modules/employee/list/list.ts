@@ -8,7 +8,10 @@ import {
   MatPaginatorModule,
   PageEvent,
 } from '@angular/material/paginator';
-import { EmployeeService, IEmployee } from '../../../services/employee/employee';
+import {
+  EmployeeService,
+  IEmployee,
+} from '../../../services/employee/employee';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
 
 @Component({
@@ -23,26 +26,32 @@ import { BehaviorSubject, combineLatest, map } from 'rxjs';
   templateUrl: './list.html',
   styleUrl: './list.scss',
 })
-export class List  {
+export class List {
   private employeeService = inject(EmployeeService);
 
   private pageIndex$ = new BehaviorSubject<number>(0);
   private pageSize$ = new BehaviorSubject<number>(5);
 
+  employees: IEmployee[] = [];
+  totalLength = 0;
+
   readonly paginatedEmployees$ = combineLatest([
-    this.employeeService.filteredEmployees$, // or `.getAll()` if not using filters
+    this.employeeService.filteredEmployees$,
     this.pageIndex$,
     this.pageSize$,
   ]).pipe(
     map(([employees, pageIndex, pageSize]) => {
+      this.employees = employees;
+      this.totalLength = employees.length;
+
       const start = pageIndex * pageSize;
       const end = start + pageSize;
+
       return employees.slice(start, end);
     })
   );
 
   readonly pageSizeOptions = [5, 10, 20];
-
 
   onPageChange(event: PageEvent): void {
     this.pageIndex$.next(event.pageIndex);

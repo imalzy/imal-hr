@@ -1,8 +1,18 @@
 <mat-toolbar color="primary" class="header-toolbar">
   <div class="header-card">
     <div class="header-container">
+
+      <div class="header-left" *ngIf="hideAddButton">
+        <button mat-button color="primary" (click)="navigateBack()">
+          <mat-icon class="icon">arrow_back</mat-icon>
+          <span>Back to Employees</span>
+        </button>
+        <mat-divider vertical class="divider"></mat-divider>
+        <h1 class="title" style="text-transform:capitalize;">Employee</h1>
+      </div>
+
       <!-- Left Section -->
-      <div class="header-left">
+      <div class="header-left" *ngIf="!hideAddButton">
         <div class="logo-box">
           <mat-icon class="logo-icon">groups</mat-icon>
         </div>
@@ -11,7 +21,12 @@
 
       <!-- Right Section -->
       <div class="header-right">
-        <button matButton="filled" color="primary" (click)="handleAddEmployee()">
+        <button
+          *ngIf="!hideAddButton"
+          matButton="filled"
+          color="primary"
+          (click)="handleAddEmployee()"
+        >
           <mat-icon>add</mat-icon>
           <span class="hide-sm">Add Employee</span>
         </button>

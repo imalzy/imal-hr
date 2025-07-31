@@ -1,1 +1,81 @@
-<p>detail works!</p>
+<div class="mat-typography">
+    <div class="container">
+        <div class="grid-container">
+            <!-- Profile Card -->
+            <mat-card class="profile-card">
+                <mat-card-content class="text-center">
+                    <div class="avatar-container">
+                        <div class="avatar-wrapper">
+                            <div class="logo-box" alt="avatar">
+                                {{ getNameAvatar((employee?.firstName || "") + (employee?.lastName || "")) }}
+                            </div>
+                            <div class="status-indicator" [ngClass]="getStatusColor(employee?.status)"></div>
+                        </div>
+
+                        <h2 class="text-center" style="margin: 0px;">{{ employee?.firstName }} {{ employee?.lastName }}</h2>
+                        <p class="text-muted" style="margin: 0px;">{{ employee?.group }}</p>
+
+                        <mat-chip color="primary" selected>{{
+                            getStatusText(employee?.status)
+                            }}</mat-chip>
+
+                        <button matButton="filled" color="primary" (click)="handleEditEmployee()">
+                            <mat-icon>edit</mat-icon>
+                            Edit Profile
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Details Card -->
+            <mat-card class="details-card">
+                <mat-card-header>
+                    <mat-card-title style="display: flex; align-items: center;gap: 0.5rem;">
+                        <mat-icon>person</mat-icon>
+                        Employee Information
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <!-- Contact Information -->
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <mat-icon class="info-icon">mail</mat-icon>
+                            <span>{{ employee?.email }}</span>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <!-- Work Information -->
+                    <h3 class="section-title">Work Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <mat-icon class="info-icon">apartment</mat-icon>
+                            <span><strong>Group:</strong> {{ employee?.group }}</span>
+                        </div>
+                        <div class="info-item">
+                            <mat-icon class="info-icon">person</mat-icon>
+                            <span><strong>Salary: </strong>Rp{{ employee?.basicSalary | currency}}</span>
+                        </div>
+                        <div class="info-item">
+                            <mat-icon class="info-icon">calendar_today</mat-icon>
+                            <span><strong>Date Of Born:</strong>
+                                {{ employee?.birthDate| date }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span><strong>Employee ID:</strong> {{ employee?.id }}</span>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <!-- Biography -->
+                    <h3 class="section-title">About</h3>
+                    <p class="text-muted">{{ employee?.description }}</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

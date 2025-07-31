@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -23,19 +24,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class CardEmployee {
   @Input() employee!: {
     id: number;
-    avatar: string;
-    name: string;
-    status: string;
-    position: string;
-    department: string;
+    username: string;
+    firstName: string;
+    lastName: string;
     email: string;
-    phone: string;
-    location: string;
+    birthDate: string;
+    basicSalary: number;
+    status: string;
+    group: string;
+    description: string;
   };
+  router = inject(Router);
 
   viewDetails() {
-    // emit or route to details
     console.log('View details:', this.employee.id);
+    this.router.navigate(['employee', 'detail', this.employee.id]);
   }
 
   getStatusColor(status: string): string {

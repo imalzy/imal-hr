@@ -17,14 +17,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   EmployeeService,
   IEmployee,
 } from '../../../services/employee/employee';
+import { switchMap } from 'rxjs';
 
 @Component({
-  selector: 'app-create',
+  selector: 'app-edit',
   imports: [
     MatCard,
     MatCardModule,
@@ -42,13 +43,15 @@ import {
     MatProgressSpinnerModule,
     MatSelectModule,
   ],
-  templateUrl: './create.html',
-  styleUrl: './create.scss',
+  templateUrl: './edit.html',
+  styleUrl: './edit.scss',
 })
-export class Create {
+export class Edit {
   private fb = inject(FormBuilder);
+  private actRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private employeeService = inject(EmployeeService);
+  employeeId!: number;
 
   form: FormGroup = this.fb.group({
     id: [0],
@@ -76,17 +79,36 @@ export class Create {
   status = ['active', 'busy', 'away'];
   isLoading = false;
 
+  ngOnInit(): void {
+    this.actRoute.paramMap
+      .pipe(
+        switchMap((params) => {
+          const id = Number(params.get('id'));
+          this.employeeId = id;
+          return this.employeeService.getById(id);
+        })
+      )
+      .subscribe({
+        next: (employee: IEmployee) => {
+          console.log('employee', employee);
+          this.form.setValue({
+            ...employee,
+          });
+        },
+        error: () => {
+          alert('Failed to load employee data');
+        },
+      });
+  }
+
   onSubmit(): void {
-    if (this.form.invalid) return;
-
-    this.isLoading = true;
-
-    const newEmployee: IEmployee = {
-      ...this.form.value,
-      id: Math.floor(Math.random() * 100000).toString(),
-    };
-
-    this.employeeService.create(newEmployee);
+    if (this.form.valid) {
+      const updatedEmployee: IEmployee = {
+        id: this.employeeId,
+        ...this.form.value,
+      };
+      this.employeeService.update(this.employeeId, updatedEmployee);
+    }
     this.router.navigate(['/employee']);
   }
 

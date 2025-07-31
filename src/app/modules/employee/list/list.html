@@ -7,9 +7,10 @@
       class="m-2"
     />
   </div>
-<mat-paginator
-  [pageSize]="5"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onPageChange($event)"
-></mat-paginator>
+  <mat-paginator
+    [pageSize]="5"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+    [length]="totalLength"
+  ></mat-paginator>
 </div>

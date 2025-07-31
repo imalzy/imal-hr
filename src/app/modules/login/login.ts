@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +19,15 @@ import { Router, RouterLink } from '@angular/router';
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule
-],
+    MatInputModule,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
   fb = inject(FormBuilder);
   router = inject(Router);
+  authService = inject(AuthService);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -51,10 +53,19 @@ export class Login {
     if (this.loginForm.invalid) return;
     this.isLoading = true;
 
+    const { email, password } = this.loginForm.value;
+
     setTimeout(() => {
-      this.isLoading = false;
-      console.log('Logged in with', this.loginForm.value);
-      this.router.navigate(['/employee'])
-    }, 1500);
+      if (email && password) {
+        const success = this.authService.login(email, password);
+        this.isLoading = false;
+
+        if (success) {
+          this.router.navigate(['employee']);
+        } else {
+          alert('Invalid credentials');
+        }
+      }
+    }, 1000);
   }
 }

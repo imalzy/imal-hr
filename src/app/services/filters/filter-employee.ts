@@ -5,8 +5,17 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class FilterEmployeeService {
-  private departments = ['HR', 'Sales', 'IT', 'Marketing', 'Engineering'];
-  private statuses = ['active', 'inactive', 'pending'];
+  private departments = [
+    'Engineering',
+    'Product',
+    'Design',
+    'Marketing',
+    'Sales',
+    'HR',
+    'Finance',
+    'IT',
+  ];
+  private statuses = ['active', 'busy', 'away'];
 
   private departmentSubject = new BehaviorSubject<string>('all');
   private statusSubject = new BehaviorSubject<string>('all');

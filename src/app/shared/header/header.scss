@@ -28,7 +28,7 @@
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(to right, #6366f1, #8b5cf6); // Purple gradient
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +36,7 @@
 
 .logo-icon {
   color: white;
-} 
+}
 
 .title {
   font-size: 1.25rem;
@@ -58,4 +58,9 @@
   .hide-sm {
     display: inline;
   }
+}
+
+.divider {
+  height: 38px;
+  border: 0.2px solid #d1d2d2 !important;
 }

@@ -37,7 +37,7 @@
 
       <!-- Clear Filters -->
       <div *ngIf="activeFiltersCount > 0">
-        <button matFab class="btn-icon">
+        <button matIconButton class="btn-icon" (click)="onClearFilters()">
         <mat-icon>close</mat-icon>
       </button>
       </div>

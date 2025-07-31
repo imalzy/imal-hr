@@ -6,14 +6,15 @@
     <div class="avatar-section">
       <div class="avatar-wrapper">
         <div class="logo-box" alt="avatar">
-          {{ getNameAvatar(employee.name) }}
+          {{ getNameAvatar(employee.firstName + employee.lastName) }}
         </div>
-        <div class="status-dot" [ngClass]="getStatusColor(employee.status)">
-        
-        </div>
+        <div
+          class="status-dot"
+          [ngClass]="getStatusColor(employee.status)"
+        ></div>
       </div>
       <div>
-        <h3 class="name">{{ employee.name }}</h3>
+        <h3 class="name">{{ employee.firstName }} {{ employee.lastName }}</h3>
         <div color="primary" matBadgeSize="small">
           {{ getStatusText(employee.status) }}
         </div>
@@ -22,13 +23,10 @@
   </div>
 
   <div class="card-content">
-    <p class="position">{{ employee.position }}</p>
-    <p class="department">{{ employee.department }}</p>
+    <p class="department">{{ employee.group }}</p>
 
     <div class="contact-info">
       <div><mat-icon>mail</mat-icon> {{ employee.email }}</div>
-      <div><mat-icon>phone</mat-icon> {{ employee.phone }}</div>
-      <div><mat-icon>location_on</mat-icon> {{ employee.location }}</div>
     </div>
   </div>
 

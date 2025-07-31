@@ -1,6 +1,6 @@
 <div style="max-width: 830px; margin: 0 auto">
   <mat-card class="mat-elevation-z4 card">
-    <mat-card-title style="margin-bottom: 8px;font-size: 24px;font-weight: 500;">Employee Information - Create</mat-card-title>
+    <mat-card-title style="margin-bottom: 8px;font-size: 24px;font-weight: 500;">Employee Information - Edit</mat-card-title>
     <mat-card-content class="p-0">
       <form [formGroup]="form" class="grid gap-4">
         <div class="responsive-grid">
@@ -52,7 +52,7 @@
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>Status</mat-label>
             <mat-select formControlName="status">
-              <mat-option *ngFor="let v of status" [value]="v">
+               <mat-option *ngFor="let v of status" [value]="v">
                 {{ v }}
               </mat-option>
             </mat-select>
@@ -73,7 +73,7 @@
             (click)="onSubmit()"
           >
             <mat-icon>save</mat-icon>
-            {{ isLoading ? "Saving..." : "Save" }}
+            {{ isLoading ? "Updating..." : "Update" }}
           </button>
         </div>
       </form>
