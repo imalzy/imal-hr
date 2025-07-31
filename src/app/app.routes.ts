@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { Header } from './shared/header/header';
+import { BasedLayout } from './core/layout/based-layout/based-layout';
+import { NotFound } from './modules/not-found/not-found';
 
 const employeeRoutes: Routes = [
   {
@@ -21,13 +22,18 @@ const employeeRoutes: Routes = [
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
-    loadComponent: () =>
-      import('./modules/auth/login/login').then((m) => m.Login),
+    loadComponent: () => import('./modules/login/login').then((m) => m.Login),
   },
   {
     path: 'employee',
-    component: Header,
+    component: BasedLayout,
     children: employeeRoutes,
   },
+  { path: '**', component: NotFound }
 ];

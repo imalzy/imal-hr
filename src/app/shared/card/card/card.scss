@@ -1,0 +1,74 @@
+.employee-card {
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  background: white;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.avatar-wrapper {
+  position: relative;
+
+  .logo-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(to right, #6366f1, #8b5cf6); // Purple gradient
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.status-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+  bottom: 0;
+  right: 0;
+}
+.status-online {
+  background-color: #4caf50;
+}
+.status-offline {
+  background-color: #f44336;
+}
+.status-away {
+  background-color: #666;
+}
+.status-busy {
+  background-color: #e98e1f;
+}
+.name {
+  font-weight: bold;
+  margin: 0;
+}
+.position {
+  font-weight: 500;
+}
+.contact-info div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.card-footer {
+  margin-top: 12px;
+}

@@ -1,0 +1,46 @@
+<mat-card class="filter-card mat-elevation-z3">
+  <mat-card-content class="p-8">
+    <div class="filter-container">
+      <!-- Title & Badge -->
+      <div class="filter-title">
+        <mat-icon class="icon-muted">filter_list</mat-icon>
+        <div class="filter-label" >Filters</div>
+        </div>
+      <!-- Filters -->
+      <div class="filter-selects">
+        <mat-form-field appearance="outline" class="filter-select" >
+          <mat-label>All Departments</mat-label>
+          <mat-select
+            [(value)]="selectedDepartment"
+            (selectionChange)="onDepartmentChange($event.value)"
+          >
+            <mat-option value="all">All Departments</mat-option>
+            <mat-option *ngFor="let dept of departments" [value]="dept">
+              {{ dept }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-select">
+          <mat-label>All Statuses</mat-label>
+          <mat-select
+            [(value)]="selectedStatus"
+            (selectionChange)="onStatusChange($event.value)"
+          >
+            <mat-option value="all">All Statuses</mat-option>
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{ status | titlecase }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Clear Filters -->
+      <div *ngIf="activeFiltersCount > 0">
+        <button matFab class="btn-icon">
+        <mat-icon>close</mat-icon>
+      </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
